@@ -1,0 +1,58 @@
+import wollok.game.*
+import map.*
+import characters.*
+import cabezal.*
+import direcciones.*
+
+
+
+program juego {
+	//  CONFIG	
+	game.title("FantasyWorld")
+	game.height(10)
+	game.width(10)
+    game.cellSize(50)
+	game.ground("ground.png")
+
+	//  VISUALES
+ 	game.addVisual(mago)
+    mapa.agregarAliado(mago)
+    
+    const comandante = new Comandante(team=aliado, inventario = #{}, position = game.at(3,3), ataqueBase = 10)
+    mapa.agregarAliado(comandante)
+	const comandante2 = new Comandante (team=enemigo, inventario =#{}, position = game.at(3,4),ataqueBase = 1)
+	mapa.agregarEnemigo(comandante2)
+     const comandante3 = new Comandante (team=enemigo, inventario =#{}, position = game.at(3,2), ataqueBase = 1)
+	mapa.agregarEnemigo(comandante3)
+    const comandante4 = new Comandante (team=enemigo, inventario =#{}, position = game.at(4,3), ataqueBase = 1)
+	mapa.agregarEnemigo(comandante4)
+    const comandante5 = new Comandante (team=enemigo, inventario =#{}, position = game.at(2,3),ataqueBase = 1)
+	mapa.agregarEnemigo(comandante5)
+
+	game.addVisual(comandante5)
+	game.addVisual(comandante4)
+	game.addVisual(comandante3)
+	game.addVisual(comandante2)
+	game.addVisual(comandante)
+    game.addVisual(cabezal)
+	
+ 	
+    // CABEZAL
+    keyboard.left().onPressDo({cabezal.mover(izquierda)})
+    keyboard.right().onPressDo({cabezal.mover(derecha)})
+    keyboard.up().onPressDo({cabezal.mover(arriba)})
+    keyboard.down().onPressDo({cabezal.mover(abajo)})
+	keyboard.a().onPressDo({cabezal.accionar()})
+	//keyboard.q().onPressDo({cabezal.moverPj()})
+	//keyboard.b().onPressDo({cabezal.seleccionActualAliada().batallar()})
+	keyboard.s().onPressDo({cabezal.cancelar()})
+	//keyboard.e().onPressDo({cabezal.seleccionarEnemigo()})
+	//keyboard.k().onPressDo({cabezal.seleccionActualAliada().atacar(cabezal.seleccionActualEnemiga())})
+		
+
+
+	
+
+ 	//  COMIENZA
+	game.start()
+}
