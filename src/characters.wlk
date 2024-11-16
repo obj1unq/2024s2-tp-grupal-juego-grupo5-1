@@ -48,9 +48,22 @@ class Personaje {
 
 
     method mover(posicion) {
+        self.validarMoverPersonaje(posicion)
         position = posicion
         self.efectoMover()
         self.recogerObjeto(posicion)
+        self.pasaAlSiguienteNivelSiSePuede(posicion)
+    }
+
+    method validarMoverPersonaje(posicion) {
+        mapa.validarSiHayAlgunPersonaje(posicion)
+        mapa.validarMoverACastilloEnemigo(posicion)
+    }
+
+    method pasaAlSiguienteNivelSiSePuede(posicion) {
+        if (mapa.estaElCastilloEnemigoAca(posicion)) {
+            mapa.siguienteNivel()  
+        }
     }
 
     method recogerObjeto(posicion) {
@@ -78,7 +91,7 @@ class Personaje {
         self.validarAtaque()
         enemigo.recibirDano()
         enemigo.morirSiCorresponde()
-        // self.efectoAtacar()
+        self.efectoAtacar()
     }
 
     method validarAtaque(){
@@ -108,6 +121,11 @@ class Personaje {
 
     method efectosEnRecursosSpawn() {
         castillo.oroEnReserva(castillo.oroEnReserva() - self.valor())
+    }
+
+    method inicializarEnNivel() {
+        position = randomizerLimitado.position()
+        game.addVisual(self)
     }
 
 }
