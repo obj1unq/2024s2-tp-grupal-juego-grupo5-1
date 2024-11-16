@@ -42,6 +42,10 @@ class Personaje {
 
     }
 
+    method hayEnemigosAlAlcance() {
+        return not self.enemigosAlAlcance().isEmpty()
+    }
+
     method definirEnemigoEn(posicion){
         return mapa.enemigos().filter({enemigo => enemigo.position()== posicion})
     }
@@ -68,7 +72,14 @@ class Personaje {
 
     method recogerObjeto(posicion) {
         if(mapa.hayObjetoEn(posicion)) {
+            self.validarSiPuedeRecogerObjeto()
             mapa.objetoEn(posicion).recogerObjeto()
+        }
+    }
+
+    method validarSiPuedeRecogerObjeto() {
+        return if (self.hayEnemigosAlAlcance()) {
+            self.error("Primero derrota a los enemigos cercanos a tu alcance, sino no puedo recoger el objeto!")
         }
     }
 
