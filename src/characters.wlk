@@ -18,18 +18,6 @@ class Personaje {
     var property position = game.at(0,0) //me pedia inicializarlo, pero spawnean en el castillo.
 
 
-    var property fueMovido = false
-    var property atacoEsteTurno = false
-
-    method efectoMover() {
-        fueMovido = true
-    }
-    
-
-    method efectoAtacar(){
-        atacoEsteTurno = true
-        cabezal.setModo(cabezalNormal)
-    }
 
 
     method enemigosAlAlcance() {
@@ -54,7 +42,7 @@ class Personaje {
     method mover(posicion) {
         self.validarMoverPersonaje(posicion)
         position = posicion
-        self.efectoMover()
+        cabezal.efectoMover()
         self.recogerObjeto(posicion)
         self.pasaAlSiguienteNivelSiSePuede(posicion)
     }
@@ -85,23 +73,19 @@ class Personaje {
 
     
     method verificarMovimiento() {
-        if (fueMovido) {
-            self.error("Ya me movi este turno")
+        if (cabezal.yaMoviEnElTurno()) {
+            self.error("Ya moviste una tropa en este turno!")
         }
     }
 
-    method recargarMovimiento() {
-      fueMovido = false
-    }
+    
 
-    method recargarAtaque(){
-        atacoEsteTurno = false
-    }
+    
 
     method atacar(enemigo) {
         self.validarAtaque()
         self.batalla(enemigo)
-        self.efectoAtacar()
+        cabezal.efectoAtacar()
     }
 
     method batalla(enemigo) {
@@ -125,8 +109,8 @@ class Personaje {
 
 
     method validarAtaque(){
-        if (atacoEsteTurno){
-            self.error("Ya ataque este turno")
+        if (cabezal.atacoEsteTurno()){
+            self.error("Ya ataque con alguna tropa este turno")
         }
     }
 
@@ -151,7 +135,7 @@ class Personaje {
     }
 
     method stats() {
-      game.say(self, "Ataque: " + ataqueBase + ", Vida: " + vidaBase + ", Defensa: " + defensaBase + "Puede mover: " + not fueMovido)
+      game.say(self, "Ataque: " + ataqueBase + ", Vida: " + vidaBase + ", Defensa: " + defensaBase + ", Puede mover: " + not cabezal.yaMoviEnElTurno())
     }
 
 }

@@ -4,6 +4,7 @@ import direcciones.*
 import map.*
 import objetos.*
 import edificios.*
+import turno.*
 
 object cabezal {
 
@@ -11,9 +12,29 @@ object cabezal {
   var property position = game.origin()
   var property modoCabezal = cabezalNormal
   var property seleccionActualEnemiga = null
+  var property yaMoviEnElTurno = false
+  var property atacoEsteTurno = false
+
 
   method image(){
     return modoCabezal.image()
+  }
+
+  method efectoAtacar(){
+    atacoEsteTurno = true
+    self.setModo(cabezalNormal)
+  }
+
+  method recargarAtaque(){
+    atacoEsteTurno = false
+  }
+
+  method efectoMover() {
+    yaMoviEnElTurno = true
+  }
+  
+  method recargarMovimiento() {
+    yaMoviEnElTurno = false
   }
 
   method inicializar() {
@@ -141,6 +162,7 @@ object cabezalAtaque {
     mapa.validarSeleccionEnemiga(cabezal.position())
     cabezal.setEnemigo(cabezal.obtenerPjEnemigo())
     cabezal.seleccionActualAliada().atacar(cabezal.seleccionActualEnemiga())
+    turno.terminarTurno() 
   }
 
 }
