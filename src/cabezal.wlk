@@ -126,7 +126,7 @@ object cabezalSeleccion {
     cabezal.seleccionActualAliada().mover(cabezal.position())
     cabezal.seleccionActualAliada().enemigosAlAlcance()
     cabezal.setAliado(null)
-    cabezal.setModo(cabezalNormal)
+    cabezal.setModo(cabezalBatalla)
   }
 
   method cancelar() {
