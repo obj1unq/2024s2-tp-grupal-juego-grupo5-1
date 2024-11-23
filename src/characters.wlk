@@ -73,8 +73,30 @@ class Personaje {
     
 
     method atacar(enemigo) {
+        self.validarSiPuedeAtacar(enemigo)
         self.batalla(enemigo)
         cabezal.efectoAtacar()
+    }
+    
+    method validarSiPuedeAtacar(enemigo) {
+        self.validarSiHayEnemigosAlAlcance()
+        self.validarSiEsUnEnemigoAlAlcance(enemigo)
+    }
+
+    method validarSiHayEnemigosAlAlcance() {
+        return if (not self.hayEnemigosAlAlcance()) {
+            self.error("No tengo enemigos al alcance para atacar!")
+        }
+    }
+
+    method validarSiEsUnEnemigoAlAlcance(enemigo) {
+        return if (not self.esUnEnemigoAlAlcance(enemigo)) {
+            self.error("El enemigo que intentas atacar no esta a tu alcance!")
+        }
+    }
+
+    method esUnEnemigoAlAlcance(enemigo) {
+        return self.enemigosAlAlcance().contains(enemigo)
     }
 
     method batalla(enemigo) {

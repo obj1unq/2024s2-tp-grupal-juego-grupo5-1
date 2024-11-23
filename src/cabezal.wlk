@@ -145,23 +145,11 @@ object cabezalBatalla {
 
   //SELECCIONAR ENEMIGO
   method accionar() {
-    self.validarAtaque()
-    mapa.validarSeleccionAliada(cabezal.position()) // 
+    mapa.validarSeleccionAliada(cabezal.position()) 
     cabezal.setAliado(cabezal.obtenerPjAliado())
     cabezal.setModo(cabezalAtaque)
   }
 
-  method validarAtaque(){
-        if (cabezal.atacoEsteTurno()){
-            self.error("Ya ataque con alguna tropa este turno")
-        }
-    }
-
-  method verificarEnemigos() {
-    if (cabezal.seleccionActualAliada.enemigosAlAlcance().size() < 1) {
-      self.error("No hay nadie para atacar!")
-    }      
-  }
 
 }
 
