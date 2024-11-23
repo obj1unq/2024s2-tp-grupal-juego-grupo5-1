@@ -70,20 +70,9 @@ class Personaje {
             self.error("Primero derrota a los enemigos cercanos a tu alcance, sino no puedo recoger el objeto!")
         }
     }
-
-    
-    method verificarMovimiento() {
-        if (cabezal.yaMoviEnElTurno()) {
-            self.error("Ya moviste una tropa en este turno!")
-        }
-    }
-
-    
-
     
 
     method atacar(enemigo) {
-        self.validarAtaque()
         self.batalla(enemigo)
         cabezal.efectoAtacar()
     }
@@ -108,11 +97,7 @@ class Personaje {
     }
 
 
-    method validarAtaque(){
-        if (cabezal.atacoEsteTurno()){
-            self.error("Ya ataque con alguna tropa este turno")
-        }
-    }
+    
 
     method morir() {
         mapa.quitar(self)

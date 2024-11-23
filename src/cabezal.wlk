@@ -101,10 +101,17 @@ object cabezalNormal {
 
   //SELECCIONAR
   method accionar() {
+    self.verificarMovimiento()
     mapa.validarSeleccionAliada(cabezal.position())
     cabezal.setAliado(cabezal.obtenerPjAliado())
     cabezal.setModo(cabezalSeleccion)
   }
+
+  method verificarMovimiento() {
+    if (cabezal.yaMoviEnElTurno()) {
+      self.error("Ya moviste una tropa en este turno!")
+      }
+    }
 
 }
 
@@ -116,7 +123,6 @@ object cabezalSeleccion {
 
   //MOVER
   method accionar() {
-    cabezal.seleccionActualAliada().verificarMovimiento()
     cabezal.seleccionActualAliada().mover(cabezal.position())
     cabezal.seleccionActualAliada().enemigosAlAlcance()
     cabezal.setAliado(null)
@@ -139,10 +145,17 @@ object cabezalBatalla {
 
   //SELECCIONAR ENEMIGO
   method accionar() {
+    self.validarAtaque()
     mapa.validarSeleccionAliada(cabezal.position()) // 
     cabezal.setAliado(cabezal.obtenerPjAliado())
     cabezal.setModo(cabezalAtaque)
   }
+
+  method validarAtaque(){
+        if (cabezal.atacoEsteTurno()){
+            self.error("Ya ataque con alguna tropa este turno")
+        }
+    }
 
   method verificarEnemigos() {
     if (cabezal.seleccionActualAliada.enemigosAlAlcance().size() < 1) {
