@@ -123,7 +123,7 @@ object castilloEnemigo {
     var property position = game.center()
 
     method image() {
-        return "castilloenemigo.png"
+        return "castilloenem.png"
     }
 
     method solido() {

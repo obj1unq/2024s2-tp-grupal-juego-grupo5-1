@@ -168,7 +168,7 @@ class Comandante inherits Personaje(ataqueBase = 7, defensaBase = 5, vidaBase = 
 
 
     method image(){
-        return "co-" + team.estado() + ".png"
+        return "com-" + team.estado() + ".png"
     }
 
 
