@@ -16,7 +16,7 @@ object cabezal {
   var property seleccionActualEnemiga = null
   var property yaMoviEnElTurno = false
   var property atacoEsteTurno = false
-
+  
 
   method image(){
     return modoCabezal.image()

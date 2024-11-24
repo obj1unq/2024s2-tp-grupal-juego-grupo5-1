@@ -101,7 +101,6 @@ class Personaje {
 
     method batalla(enemigo) {
 
-    
         if(self.leGanaAEnemigo(enemigo)) { 
             enemigo.morir()
         } else {

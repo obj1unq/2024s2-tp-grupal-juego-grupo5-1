@@ -150,7 +150,7 @@ object hud{
 
     
     method image(){
-        return "hud5.png"
+        return "hud6.png"
     }
 
     method inicializar() {
