@@ -71,7 +71,7 @@ object statsPjActual {
 object probabilidades {
 
     method position() {
-        return game.at(18, 5)
+        return game.at(18, 4)
     }
 
     method text() {
@@ -85,7 +85,7 @@ object probabilidades {
 object probabilidadesDragonGolem {
 
     method position() {
-        return game.at(18, 4)
+        return game.at(18, 3)
     }
 
     method text() {
@@ -105,13 +105,13 @@ object probabilidadesDragonGolem {
 object probabilidadesComandSol {
 
     method position() {
-        return game.at(18, 3)
+        return game.at(18, 2)
     }
 
     method text() {
         if (cabezal.seleccionActualAliada() != null) {
-            return "                Comandante: " + (cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 5 )).truncate(2) +
-                    "               Soldado: "  + (cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 4 )).truncate(2)
+            return "                  Comandante: " + (cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 5 )).truncate(2) +
+                    "        Soldado: "  + (cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 4 )).truncate(2)
         } else {
             return null
         }
@@ -125,7 +125,7 @@ object probabilidadesComandSol {
 object probabilidadesArqMag {
 
     method position() {
-        return game.at(18, 2)
+        return game.at(18, 1)
     }
 
     method text() {
