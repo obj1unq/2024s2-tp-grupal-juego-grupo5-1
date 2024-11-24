@@ -9,7 +9,6 @@ import objetos.*
 import textos.*
 
 
-
 program juego {
 	//  CONFIG	
 	game.title("FantasyWorld")
@@ -26,10 +25,13 @@ program juego {
 	game.addVisual(probabilidadesDragonGolem)
 	game.addVisual(probabilidadesComandSol)
 	game.addVisual(probabilidadesArqMag)
-	//game.addVisual(cantidadPiedra)
-	//game.addVisual(cantidadHuevos)
 
-
+	//SONIDO
+	const music = game.sound("background3.mp3")
+ 	music.shouldLoop(true)
+	music.volume(0.04)
+	game.schedule(500, { music.play()} )
+	
     // CABEZAL
     keyboard.left().onPressDo({cabezal.mover(izquierda)})
     keyboard.right().onPressDo({cabezal.mover(derecha)})
