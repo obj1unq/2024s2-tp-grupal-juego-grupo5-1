@@ -111,7 +111,7 @@ class CasaMedieval {
     const property position
 
     method image() {
-        return "casamedievalnew.png"
+        return "casam.png"
     }
 
     method solido() {

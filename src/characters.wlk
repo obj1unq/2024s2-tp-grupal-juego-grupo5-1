@@ -109,7 +109,7 @@ class Personaje {
         }
     }
 
-    // Preguntar si es necesario dividir en metodos o se puede dejar asi
+
     method leGanaAEnemigo(enemigo) {
 
         const numRandom = 0.randomUpTo(1)
