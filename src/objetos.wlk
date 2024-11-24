@@ -78,7 +78,7 @@ object constructorPiedras {
 }
 
 class Huevo inherits Objeto {
-    const property image = "huevoDragon.png"
+    const property image = "huevo.png"
     const property cantidad = 1
 
 
