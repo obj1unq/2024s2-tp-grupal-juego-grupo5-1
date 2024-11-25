@@ -20,6 +20,11 @@ object mapa {
         self.removerTodasLasVisuales()
         self.iniciarControles()
         nivelActual.inicializar()
+        
+    }
+
+    method enter() {
+        nivelActual.enter()
     }
 
     method removerTodasLasVisuales() {

@@ -11,6 +11,7 @@ class Nivel {
 
     var property turnosDelNivel
 
+
     method tableroNivel() {
         return mapa.nivelActual().tablero()
     }
@@ -54,6 +55,10 @@ class Nivel {
         return turnosDelNivel == 0
     }
 
+    method enter() {
+        mapa.inicioJuego()
+    } // Por default no hace nada
+
 }
 
 
@@ -74,14 +79,19 @@ object pantallaInicio inherits Nivel(turnosDelNivel = 1) {
      [in,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_]
      ].reverse()
 
+    
+
     override method inicializar() {
         self.ejecutarPantalla()
-        self.siguiente()
     }
 
     method ejecutarPantalla() {
         self.dibujar()
-        keyboard.enter().onPressDo({mapa.inicioJuego()})
+        keyboard.enter().onPressDo({mapa.enter()})
+    }
+
+    override method enter() {
+        mapa.inicioJuego()
     }
 
 
