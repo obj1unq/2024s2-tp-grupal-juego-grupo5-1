@@ -38,7 +38,13 @@ class Nivel {
         })
     }
 
-    method siguiente()
+    method siguiente() {
+        mapa.nivelActual(self.nivelSiguiente())
+    }
+
+    method nivelSiguiente() {
+        return
+    }
 
     method limpiarTablero() {
         mapa.removerTodasLasVisuales()
@@ -95,8 +101,8 @@ object pantallaInicio inherits Nivel(turnosDelNivel = 1) {
     }
 
 
-    override method siguiente() {
-        mapa.nivelActual(nivel1)
+    override method nivelSiguiente() {
+        return nivel1
     }
 }
 object nivel1 inherits Nivel(turnosDelNivel = 15) {
@@ -116,8 +122,8 @@ object nivel1 inherits Nivel(turnosDelNivel = 15) {
      [_,_,_,_,_,_,_,_,_,o,_,_,_,_,_,_,_,_,_,_,_,_,_]
      ].reverse()
 
-    override method siguiente() {
-        mapa.nivelActual(nivel2)
+    override method nivelSiguiente() {
+        return nivel2
     }
 
 }
@@ -140,8 +146,8 @@ object nivel2 inherits Nivel(turnosDelNivel = 25) {
      [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_]
      ].reverse()
 
-    override method siguiente() {
-        mapa.nivelActual(nivel3)
+    override method nivelSiguiente() {
+        return nivel3
     }
 
 }
@@ -164,8 +170,8 @@ object nivel3 inherits Nivel(turnosDelNivel = 32) {
      [_,_,_,coe,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_]
      ].reverse()
 
-    override method siguiente() {
-        mapa.nivelActual(pantallaFinal)
+    override method nivelSiguiente() {
+        return pantallaFinal
     }
 }
 
@@ -193,10 +199,6 @@ object pantallaFinal inherits Nivel (turnosDelNivel = 1) {
     method ejecutarFin() {
         self.dibujar()
         game.stop()
-    }
-
-
-    override method siguiente() { 
     }
 }
 
