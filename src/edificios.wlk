@@ -53,8 +53,6 @@ object castillo {
         return oroEnReserva < 11 // Es menor al valor de la unidad mas barata para spawnear.
     }
 
-    method stats() {
-      game.say(self, "Oro: " + oroEnReserva + ", Piedra: " + piedrasEnReserva + ", Huevos: " + huevosEnReserva)
-    }
+
 }
 

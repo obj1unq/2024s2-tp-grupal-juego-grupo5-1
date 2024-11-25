@@ -167,13 +167,6 @@ object mapa {
     }
 
 
-    method stats() {
-        aliados.forEach( {aliado => aliado.stats() } )
-        enemigos.forEach( {enemigo => enemigo.stats() } )
-        castillo.stats()
-        game.say(cabezal, "Turnos restantes: " + nivelActual.turnosDelNivel())
-    }
-
     method terminarJuego() {
         if ((self.noHayTropasNiRecursosParaSpawn()) || nivelActual.noHayMasTurnos()) {
             game.addVisual(finDerrota)

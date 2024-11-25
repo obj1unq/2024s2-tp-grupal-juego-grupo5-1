@@ -9,8 +9,6 @@ class Personaje {
     //stats
     const property ataqueBase
     const property defensaBase
-    const property vidaBase
-    var property vidaActual = vidaBase
     const property valor 
 
     var property team
@@ -156,15 +154,13 @@ class Personaje {
         game.addVisual(self)
     }
 
-    method stats() {
-      game.say(self, "Ataque: " + ataqueBase + ", Vida: " + vidaBase + ", Defensa: " + defensaBase + ", Puede mover: " + not cabezal.yaMoviEnElTurno())
-    }
 
     method playSpawn()
+
     method playAtaque()
 }
 
-class Comandante inherits Personaje(ataqueBase = 7, defensaBase = 5, vidaBase = 20, valor = 20) {
+class Comandante inherits Personaje(ataqueBase = 7, defensaBase = 5, valor = 20) {
 
     const property inventario = #{}
 
@@ -183,7 +179,7 @@ class Comandante inherits Personaje(ataqueBase = 7, defensaBase = 5, vidaBase = 
 }
 
 
-class Mago inherits Personaje(ataqueBase = 5, defensaBase = 2, vidaBase = 12, valor = 11) {
+class Mago inherits Personaje(ataqueBase = 5, defensaBase = 2, valor = 11) {
 
 
     method image() {
@@ -200,7 +196,7 @@ class Mago inherits Personaje(ataqueBase = 5, defensaBase = 2, vidaBase = 12, va
 }
 
 
-class Soldado inherits Personaje(ataqueBase = 6, defensaBase = 4, vidaBase = 15, valor = 15) {
+class Soldado inherits Personaje(ataqueBase = 6, defensaBase = 4, valor = 15) {
 
     method image(){
         return "so-" + team.estado() +".png"
@@ -215,7 +211,7 @@ class Soldado inherits Personaje(ataqueBase = 6, defensaBase = 4, vidaBase = 15,
     }
 }
 
-class Arquero inherits Personaje (ataqueBase = 4, defensaBase = 2, vidaBase = 10, valor = 11) {
+class Arquero inherits Personaje (ataqueBase = 4, defensaBase = 2, valor = 11) {
     
     method image(){
         return "ar-" + team.estado() +".png"
@@ -234,7 +230,7 @@ class Arquero inherits Personaje (ataqueBase = 4, defensaBase = 2, vidaBase = 10
     }
 }
 
-class Golem inherits Personaje(ataqueBase = 4, defensaBase = 10, vidaBase = 30, valor = 35) {
+class Golem inherits Personaje(ataqueBase = 4, defensaBase = 10, valor = 35) {
     
     method image(){
         return "go-" + team.estado() + ".png"
@@ -259,7 +255,7 @@ class Golem inherits Personaje(ataqueBase = 4, defensaBase = 10, vidaBase = 30, 
 
 }
 
-class Dragon inherits Personaje (ataqueBase = 9, defensaBase = 4, vidaBase = 20, valor = 30) {
+class Dragon inherits Personaje (ataqueBase = 9, defensaBase = 4, valor = 30) {
 
     method image(){
         return "dr-"+ team.estado() + ".png"
