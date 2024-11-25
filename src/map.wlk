@@ -4,13 +4,43 @@ import objetos.*
 import characters.*
 import edificios.*
 import textos.*
+import turno.*
+import direcciones.*
+import pantallas.*
 
 
 object mapa {
     const property aliados = #{}
     const property enemigos = #{}
     const property objetos = #{}
-    var property nivelActual = nivel1 
+    var property nivelActual = pantallaInicio 
+
+    method inicioJuego() {
+        self.removerTodasLasVisuales()
+        self.iniciarControles()
+        nivelActual.inicializar()
+    }
+
+    method removerTodasLasVisuales() {
+        game.allVisuals().forEach({v => game.removeVisual(v)})
+    }
+
+    method iniciarControles() {
+    keyboard.left().onPressDo({cabezal.mover(izquierda)})
+    keyboard.right().onPressDo({cabezal.mover(derecha)})
+    keyboard.up().onPressDo({cabezal.mover(arriba)})
+    keyboard.down().onPressDo({cabezal.mover(abajo)})
+	keyboard.num1().onPressDo({castillo.spawn(new Comandante(team = aliado))})
+	keyboard.num2().onPressDo({castillo.spawn(new Soldado (team=aliado))})
+	keyboard.num3().onPressDo({castillo.spawn(new Arquero(team = aliado))})
+	keyboard.num4().onPressDo({castillo.spawn(new Mago (team = aliado))})
+	keyboard.num5().onPressDo({castillo.spawn(new Golem (team= aliado))})
+	keyboard.num6().onPressDo({castillo.spawn(new Dragon (team = aliado))})
+	keyboard.a().onPressDo({cabezal.accionar()})
+	keyboard.s().onPressDo({cabezal.cancelar()})
+	keyboard.t().onPressDo({turno.pasarABatalla()})
+	keyboard.r().onPressDo({turno.terminarTurno()})
+    }
 
     method validarSiEstaDentro(posicion) {
         return if (not self.estaDentro(posicion)) {
@@ -144,6 +174,17 @@ object mapa {
         game.say(cabezal, "Turnos restantes: " + nivelActual.turnosDelNivel())
     }
 
+    method terminarJuego() {
+        if ((self.noHayTropasNiRecursosParaSpawn()) || nivelActual.noHayMasTurnos()) {
+            game.addVisual(finDerrota)
+            game.stop()
+        }
+    }
+
+    method noHayTropasNiRecursosParaSpawn() {
+        return self.todosLosAliadosEstanVencidos() && castillo.oroEnReservaNoEsSuficiente()
+    }
+
 }
 
 object hud{
@@ -205,20 +246,55 @@ class Nivel {
     method siguiente()
 
     method limpiarTablero() {
-        self.removerTodasLasVisuales()
+        mapa.removerTodasLasVisuales()
         self.tableroNivel().clear()
     }
 
-    method removerTodasLasVisuales() {
-        game.allVisuals().forEach({v => game.removeVisual(v)})
-    }
+
 
     method gastarTurno() {
         turnosDelNivel -= 1
     }
 
+    method noHayMasTurnos() {
+        return turnosDelNivel == 0
+    }
+
 }
 
+
+object pantallaInicio inherits Nivel(turnosDelNivel = 1) {
+    const property tablero = 
+    [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],    
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],    
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],   
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],  
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_], 
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+     [in,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_]
+     ].reverse()
+
+    override method inicializar() {
+        self.ejecutarPantalla()
+        self.siguiente()
+    }
+
+    method ejecutarPantalla() {
+        self.dibujar()
+        keyboard.enter().onPressDo({mapa.inicioJuego()})
+    }
+
+
+    override method siguiente() {
+        mapa.nivelActual(nivel1)
+    }
+}
 object nivel1 inherits Nivel(turnosDelNivel = 15) {
     const property tablero = 
     [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,ce,_,_,_,_,_,_,_,_],
@@ -285,7 +361,38 @@ object nivel3 inherits Nivel(turnosDelNivel = 32) {
      ].reverse()
 
     override method siguiente() {
-        // Ver si queda vacio o el siguiente podria ser un nivel que muestre la pantalla final del juego y tire el game stop
+        mapa.nivelActual(pantallaFinal)
+    }
+}
+
+object pantallaFinal inherits Nivel (turnosDelNivel = 1) {
+    const property tablero = 
+    [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],    
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],    
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],   
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],  
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_], 
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+     [fv,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_]
+     ].reverse()
+
+    override method inicializar() {
+        self.ejecutarFin()
+    }
+
+    method ejecutarFin() {
+        self.dibujar()
+        game.stop()
+    }
+
+
+    override method siguiente() { 
     }
 }
 
@@ -390,5 +497,19 @@ object de {
         const dragonEnemigo = new Dragon(team = enemigo, position = position)
         game.addVisual(dragonEnemigo)
         mapa.agregarEnemigo(dragonEnemigo)
+    }
+}
+
+object in {
+    method dibujarEn(position) {
+        inicio.position(position)
+        game.addVisual(inicio)
+    }
+}
+
+object fv {
+    method dibujarEn(position) {
+        finVictoria.position(position)
+        game.addVisual(finVictoria)
     }
 }
