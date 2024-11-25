@@ -55,7 +55,7 @@ object mapa {
     }
 
     method estaDentro(posicion) {
-		return posicion.x().between(0, game.width() - 1) and posicion.y().between(0, game.height() - 1)
+		return posicion.x().between(0, game.width() - 9) and posicion.y().between(0, game.height() - 1)
 	}
 
     method validarSiHayObjetoSolido(posicion) {
