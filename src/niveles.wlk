@@ -56,7 +56,6 @@ class Nivel {
     }
 
     method enter() {
-        mapa.inicioJuego()
     } // Por default no hace nada
 
 }
@@ -91,6 +90,7 @@ object pantallaInicio inherits Nivel(turnosDelNivel = 1) {
     }
 
     override method enter() {
+        self.siguiente()
         mapa.inicioJuego()
     }
 
