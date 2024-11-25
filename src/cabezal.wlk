@@ -45,6 +45,7 @@ object cabezal {
     game.addVisual(self)
     self.recargarMovimiento()
   }
+
   method mover(direccion) {
     const siguiente = direccion.siguiente(position) 
     self.validarMoverCabezal(siguiente)
@@ -58,8 +59,8 @@ object cabezal {
 
   method cancelar() {
     modoCabezal = cabezalNormal
-    seleccionActualAliada = null
-    seleccionActualEnemiga = null 
+    self.limpiarSelecAliada()
+    self.limpiarSelecEnemiga()
     pjActual.removerPjActual()
   }
 
@@ -68,7 +69,11 @@ object cabezal {
   }
 
   method limpiarSelecAliada() {
-    return null
+    seleccionActualAliada = null
+  }
+
+  method limpiarSelecEnemiga() {
+    seleccionActualEnemiga = null
   }
 
   method setAliado(aliado) {
@@ -117,14 +122,23 @@ object cabezal {
   
 }
 
-object cabezalNormal {
+class ModoCabezal {
 
-  method image() {
+  method image()
+
+  method accionar()
+
+  
+}
+
+object cabezalNormal inherits ModoCabezal {
+
+  override method image() {
     return "cabezal.png"
   }
 
   //SELECCIONAR
-  method accionar() {
+  override method accionar() {
     self.verificarMovimiento()
     mapa.validarSeleccionAliada(cabezal.position())
     cabezal.setAliado(cabezal.obtenerPjAliado())
@@ -139,37 +153,31 @@ object cabezalNormal {
 
 }
 
-object cabezalSeleccion {
+object cabezalSeleccion inherits ModoCabezal {
   
-  method image() {
+  override method image() {
     return "cabezal_seleccion.png"
   }
 
   //MOVER
-  method accionar() {
+  override method accionar() {
     cabezal.seleccionActualAliada().mover(cabezal.position())
     cabezal.seleccionActualAliada().enemigosAlAlcance()
-    cabezal.setAliado(null)
+    cabezal.limpiarSelecAliada()
     cabezal.setModo(cabezalBatalla)
     pjActual.removerPjActual()
   }
 
-  method cancelar() {
-    cabezal.setModo(cabezalNormal)
-    cabezal.setAliado(null)
-    cabezal.setEnemigo(null)
-  }
-
 }
 
-object cabezalBatalla {
+object cabezalBatalla inherits ModoCabezal {
 
-  method image() {
+  override method image() {
       return "cabezal_batalla.png"
   }
 
   //SELECCIONAR ENEMIGO
-  method accionar() {
+  override method accionar() {
     mapa.validarSeleccionAliada(cabezal.position()) 
     cabezal.setAliado(cabezal.obtenerPjAliado())
     cabezal.setModo(cabezalAtaque)
@@ -178,13 +186,13 @@ object cabezalBatalla {
 
 }
 
-object cabezalAtaque {
+object cabezalAtaque inherits ModoCabezal {
   
-  method image() {
+  override method image() {
     return "cabezal_ataque.png"
   }
 
-  method accionar() {
+  override method accionar() {
     mapa.validarSeleccionEnemiga(cabezal.position())
     cabezal.setEnemigo(cabezal.obtenerPjEnemigo())
     cabezal.seleccionActualAliada().atacar(cabezal.seleccionActualEnemiga())
