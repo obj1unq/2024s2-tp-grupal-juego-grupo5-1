@@ -18,8 +18,8 @@ class Nivel {
 
     method inicializar() {
         self.dibujar()
-        constructorOros.instanciarOros(2)
-	    constructorPiedras.instanciarPiedra(1)
+        constructorOros.instanciar(2)
+	    constructorPiedras.instanciar(1)
         castillo.inicializar()
         cabezal.inicializar()
         mapa.inicializarAliadosVivos()
