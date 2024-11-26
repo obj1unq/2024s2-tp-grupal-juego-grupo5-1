@@ -174,8 +174,20 @@ object mapa {
 
 
     method terminarJuego() {
-        if ((self.noHayTropasNiRecursosParaSpawn()) || nivelActual.noHayMasTurnos()) {
-            game.addVisual(finDerrota)
+        self.terminarJuegoPorTurnos()
+        self.terminarJuegoPorTropas()
+    }
+
+    method terminarJuegoPorTurnos() {
+        if (nivelActual.noHayMasTurnos()) {
+            game.addVisual(finDerrotaTurnos)
+            game.stop()
+        }
+    }
+
+    method terminarJuegoPorTropas() {
+        if (self.noHayTropasNiRecursosParaSpawn()) {
+            game.addVisual(finDerrotaTropas)
             game.stop()
         }
     }

@@ -22,9 +22,16 @@ object finVictoria inherits Pantalla {
     }
 }
 
-object finDerrota inherits Pantalla {
+object finDerrotaTurnos inherits Pantalla {
 
     method image() {
-        return "pantallaDerrota.png"
+        return "pantallaDerrotaTurnos.png"
+    }
+}
+
+object finDerrotaTropas inherits Pantalla {
+
+    method image() {
+        return "pantallaDerrotaTropas.png"
     }
 }
