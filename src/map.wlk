@@ -8,6 +8,7 @@ import direcciones.*
 import pantallas.*
 import hud.*
 import niveles.*
+import animaciones.*
 
 
 object mapa {
@@ -19,6 +20,8 @@ object mapa {
     method inicioJuego() {
         self.removerTodasLasVisuales()
         self.iniciarControles()
+        self.iniciarMusica()
+        self.iniciarAnimaciones()
         nivelActual.inicializar()
         
     }
@@ -46,6 +49,17 @@ object mapa {
 	keyboard.s().onPressDo({cabezal.cancelar()})
 	keyboard.t().onPressDo({turno.pasarABatalla()})
 	keyboard.r().onPressDo({turno.terminarTurno()})
+    }
+
+    method iniciarMusica() {
+        const music = game.sound("background3.mp3")
+ 	    music.shouldLoop(true)
+	    music.volume(0.04)
+	    game.schedule(500, { music.play()} )
+    }
+
+    method iniciarAnimaciones() {
+        game.onTick(500, "animacion", {animacion.sumarFrame()})
     }
 
     method validarSiEstaDentro(posicion) {
