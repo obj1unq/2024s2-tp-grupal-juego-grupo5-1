@@ -62,16 +62,13 @@ class Personaje {
 
     method recogerObjeto(posicion) {
         if(mapa.hayObjetoEn(posicion)) {
-            self.validarSiPuedeRecogerObjeto()
-            mapa.objetoEn(posicion).recogerObjeto()
+            if (not self.hayEnemigosAlAlcance()) {
+                mapa.objetoEn(posicion).recogerObjeto()
+            }
         }
     }
 
-    method validarSiPuedeRecogerObjeto() {
-        return if (self.hayEnemigosAlAlcance()) {
-            self.error("Primero derrota a los enemigos cercanos a tu alcance, sino no puedo recoger el objeto!")
-        }
-    }
+
     
 
     method atacar(enemigo) {
