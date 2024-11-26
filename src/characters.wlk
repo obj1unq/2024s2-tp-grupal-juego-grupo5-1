@@ -264,7 +264,7 @@ class Golem inherits Personaje(ataqueBase = 4, defensaBase = 10, valor = 35) {
 
 }
 
-class Dragon inherits Personaje (ataqueBase = 9, defensaBase = 4, valor = 30) {
+class Dragon inherits Personaje (ataqueBase = 9, defensaBase = 4, valor = 35) {
 
     override method imageString() {
         return "dr-"
