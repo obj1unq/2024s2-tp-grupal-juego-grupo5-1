@@ -37,7 +37,7 @@ class Personaje {
     }
 
     method definirEnemigoEn(posicion){
-        return mapa.enemigos().filter({enemigo => enemigo.position()== posicion})
+        return mapa.enemigos().filter({enemigo => enemigo.position() == posicion})
     }
 
 
@@ -138,7 +138,6 @@ class Personaje {
     method morir() {
         mapa.quitar(self)
         game.removeVisual(self)
-        cabezal.modoCabezal(cabezalNormal)
     }
     
 
@@ -146,9 +145,7 @@ class Personaje {
         return true // Lo establezco como true y en las clases que si tienen una condicion para el spawn les hago un override.
     }
 
-    method efectosEnRecursosSpawn() {
-        castillo.oroEnReserva(castillo.oroEnReserva() - self.valor())
-    }
+    method efectoEnRecursosPorCondicion() {} // No hace nada por default
 
     method inicializarEnNivel() {
         position = randomizerLimitado.emptyPosition()
@@ -253,8 +250,7 @@ class Golem inherits Personaje(ataqueBase = 4, defensaBase = 10, valor = 35) {
         return castillo.piedrasEnReserva() >= 3
     }
 
-    override method efectosEnRecursosSpawn() {
-        super()
+    override method efectoEnRecursosPorCondicion() {
         castillo.piedrasEnReserva(castillo.piedrasEnReserva() - 3)
     }
 
@@ -278,8 +274,7 @@ class Dragon inherits Personaje (ataqueBase = 9, defensaBase = 4, valor = 30) {
         return castillo.huevosEnReserva() >= 1
     }
 
-    override method efectosEnRecursosSpawn() {
-        super()
+    override method efectoEnRecursosPorCondicion() {
         castillo.huevosEnReserva(castillo.huevosEnReserva() - 1)
     }
 
