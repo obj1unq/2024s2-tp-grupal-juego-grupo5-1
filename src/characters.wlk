@@ -9,8 +9,6 @@ class Personaje {
     //stats
     const property ataqueBase
     const property defensaBase
-    const property vidaBase
-    var property vidaActual = vidaBase
     const property valor 
 
     var property team
@@ -18,7 +16,11 @@ class Personaje {
     var property position = game.at(0,0) //me pedia inicializarlo, pero spawnean en el castillo.
 
 
+    method image() {
+        return self.imageString() + team.estado() + ".png"
+    }
 
+    method imageString()
 
     method enemigosAlAlcance() {
         return self.enemigosAlAlcance(direcciones.principales(), 1)
@@ -60,16 +62,13 @@ class Personaje {
 
     method recogerObjeto(posicion) {
         if(mapa.hayObjetoEn(posicion)) {
-            self.validarSiPuedeRecogerObjeto()
-            mapa.objetoEn(posicion).recogerObjeto()
+            if (not self.hayEnemigosAlAlcance()) {
+                mapa.objetoEn(posicion).recogerObjeto()
+            }
         }
     }
 
-    method validarSiPuedeRecogerObjeto() {
-        return if (self.hayEnemigosAlAlcance()) {
-            self.error("Primero derrota a los enemigos cercanos a tu alcance, sino no puedo recoger el objeto!")
-        }
-    }
+
     
 
     method atacar(enemigo) {
@@ -156,88 +155,98 @@ class Personaje {
         game.addVisual(self)
     }
 
-    method stats() {
-      game.say(self, "Ataque: " + ataqueBase + ", Vida: " + vidaBase + ", Defensa: " + defensaBase + ", Puede mover: " + not cabezal.yaMoviEnElTurno())
+
+    method playSpawn() {
+        game.sound(self.spawnSound()).play()
     }
 
-    method playSpawn()
-    method playAtaque()
+    method spawnSound()
+
+    method playAtaque() {
+        game.sound(self.ataqueSound()).play()
+    }
+
+    method ataqueSound()
 }
 
-class Comandante inherits Personaje(ataqueBase = 7, defensaBase = 5, vidaBase = 20, valor = 20) {
-
-    const property inventario = #{}
+class Comandante inherits Personaje(ataqueBase = 7, defensaBase = 5, valor = 20) {
 
 
-    method image(){
-        return "com-" + team.estado() + ".png"
+    override method imageString() {
+        return "com-"
     }
 
-    override method playSpawn(){
-        game.sound("spawnCom.mp3").play()
+    override method spawnSound() {
+        return "spawnCom.mp3"
     }
 
-    override method playAtaque() {
-        game.sound("hitCom.wav").play()
+
+    override method ataqueSound() {
+        return "hitCom.wav"
     }
 }
 
 
-class Mago inherits Personaje(ataqueBase = 5, defensaBase = 2, vidaBase = 12, valor = 11) {
+class Mago inherits Personaje(ataqueBase = 5, defensaBase = 2, valor = 11) {
 
 
-    method image() {
-        return "mg-" + team.estado()+".png"
+    override method imageString() {
+        return "mg-"
     }
   
-    override method playSpawn(){
-        game.sound("spawnMag.mp3").play()
+
+    override method spawnSound() {
+        return "spawnMag.mp3"
     }
 
-    override method playAtaque() {
-        game.sound("hitMago.wav").play()
-    }
-}
 
-
-class Soldado inherits Personaje(ataqueBase = 6, defensaBase = 4, vidaBase = 15, valor = 15) {
-
-    method image(){
-        return "so-" + team.estado() +".png"
-    }
-
-    override method playSpawn(){
-        game.sound("spawnSol.mp3").play()
-    }
-
-    override method playAtaque() {
-        game.sound("hitEspada.wav").play()
+    override method ataqueSound() {
+        return "hitMago.wav"
     }
 }
 
-class Arquero inherits Personaje (ataqueBase = 4, defensaBase = 2, vidaBase = 10, valor = 11) {
+
+class Soldado inherits Personaje(ataqueBase = 6, defensaBase = 4, valor = 15) {
+
+    override method imageString() {
+        return "so-"
+    }
+
+
+    override method spawnSound() {
+        return "spawnSol.mp3"
+    }
+
+
+    override method ataqueSound() {
+        return "hitEspada.wav"
+    }
+}
+
+class Arquero inherits Personaje (ataqueBase = 4, defensaBase = 2, valor = 11) {
     
-    method image(){
-        return "ar-" + team.estado() +".png"
+    override method imageString() {
+        return "ar-"
     }
 
     override method enemigosAlAlcance(){
         return self.enemigosAlAlcance(direcciones.principales(), 2) + self.enemigosAlAlcance(direcciones.todas(), 1)
     }
 
-    override method playSpawn(){
-        game.sound("spawnArq.mp3").play()
+    override method spawnSound() {
+        return "spawnArq.mp3"
     }
 
-    override method playAtaque() {
-        game.sound("hitFlecha.wav").play()
+
+    override method ataqueSound() {
+        return "hitFlecha.wav"
     }
 }
 
-class Golem inherits Personaje(ataqueBase = 4, defensaBase = 10, vidaBase = 30, valor = 35) {
+class Golem inherits Personaje(ataqueBase = 4, defensaBase = 10, valor = 35) {
     
-    method image(){
-        return "go-" + team.estado() + ".png"
+    override method imageString() {
+        return "go-"
     }
 
     override method condicionParaSpawn() {
@@ -249,20 +258,20 @@ class Golem inherits Personaje(ataqueBase = 4, defensaBase = 10, vidaBase = 30, 
         castillo.piedrasEnReserva(castillo.piedrasEnReserva() - 3)
     }
 
-    override method playSpawn(){
-        game.sound("spawnGol.mp3").play()
+    override method spawnSound() {
+        return "spawnGol.mp3"
     }
 
-    override method playAtaque() {
-        game.sound("hitGolem.wav").play()
+    override method ataqueSound() {
+        return "hitGolem.wav"
     }
 
 }
 
-class Dragon inherits Personaje (ataqueBase = 9, defensaBase = 4, vidaBase = 20, valor = 30) {
+class Dragon inherits Personaje (ataqueBase = 9, defensaBase = 4, valor = 30) {
 
-    method image(){
-        return "dr-"+ team.estado() + ".png"
+    override method imageString() {
+        return "dr-"
     }
 
     override method condicionParaSpawn() {
@@ -274,14 +283,12 @@ class Dragon inherits Personaje (ataqueBase = 9, defensaBase = 4, vidaBase = 20,
         castillo.huevosEnReserva(castillo.huevosEnReserva() - 1)
     }
 
-    override method playSpawn(){
-        game.sound("spawnDrag.mp3").play()
+    override method spawnSound() {
+        return "spawnDrag.mp3"
     }
 
-    override method playAtaque() {
-        const sonido = game.sound("hitDragon.wav")
-        sonido.play()
-        sonido.volume(0.4)
+    override method ataqueSound() {
+        return "hitDragon.wav"
     }
 
 }

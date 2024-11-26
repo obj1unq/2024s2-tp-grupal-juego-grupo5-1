@@ -1,40 +1,47 @@
-import turno.*
 import wollok.game.*
 import map.*
 import characters.*
 import cabezal.*
-import direcciones.*
 import edificios.*
-import objetos.*
 import colores.*
 
-object cantidadTurnos {
+
+class TextoHUD {
+
+    method position()
+
+    method text()
+
+    method textColor()
+}
+
+object cantidadTurnos inherits TextoHUD {
   
-    method position() {
+    override method position() {
         return game.at(18, 11)
     }
 
-    method text() {
+    override method text() {
         return "       Turnos restantes: " + mapa.nivelActual().turnosDelNivel()
     }
 
-    method textColor() {
+    override method textColor() {
       return paleta.blanco()
     }
 
 }
 
-object textoReservas {
+object textoReservas inherits TextoHUD {
 
-    method position() {
+    override method position() {
         return game.at(18, 10)
     }
 
-    method text() {
+    override method text() {
         return "     Oro: "  + castillo.oroEnReserva() + "      Piedra: " + castillo.piedrasEnReserva() + "      Huevos: " + castillo.huevosEnReserva()
     }
 
-    method textColor() {
+    override method textColor() {
       return paleta.blanco()
     }
 }
@@ -55,97 +62,97 @@ object pjActual {
     }
 }
 
-object statsPjActual {
+object statsPjActual inherits TextoHUD {
 
-    method position() {
+    override method position() {
         return game.at(18, 8)
     }
 
-    method text() {
-        if (cabezal.hayAliadoSeleccionado()) {
-            return "          Ataque: " + cabezal.seleccionActualAliada().ataqueBase().toString() + 
+    override method text() {
+        return if (cabezal.hayAliadoSeleccionado()) {
+            "          Ataque: " + cabezal.seleccionActualAliada().ataqueBase().toString() + 
             "    Defensa: " + cabezal.seleccionActualAliada().defensaBase().toString()
         } else {
-            return null
+            null
         }
     }
 
-    method textColor() {
+    override method textColor() {
       return paleta.blanco()
     }
 }
 
 
-object probabilidades {
+object probabilidades inherits TextoHUD {
 
-    method position() {
+    override method position() {
         return game.at(18, 4)
     }
 
-    method text() {
+    override method text() {
         return "                Probabilidad de victoria VS:"
     }
 
-    method textColor() {
+    override method textColor() {
       return paleta.blanco()
     }
 }
-object probabilidadesDragonGolem {
+object probabilidadesDragonGolem inherits TextoHUD {
 
-    method position() {
+    override method position() {
         return game.at(18, 3)
     }
 
-    method text() {
-        if (cabezal.hayAliadoSeleccionado()) {
-            return "              Dragon: " + (cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 4 )).truncate(2) +
+    override method text() {
+        return if (cabezal.hayAliadoSeleccionado()) {
+            "              Dragon: " + (cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 4 )).truncate(2) +
                     "               Golem: "  + (cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 10 )).truncate(2)
         } else {
-            return null
+            null
         }
     }
 
-    method textColor() {
+    override method textColor() {
       return paleta.blanco()
     }
 }
 
-object probabilidadesComandSol {
+object probabilidadesComandSol inherits TextoHUD{
 
-    method position() {
+    override method position() {
         return game.at(18, 2)
     }
 
-    method text() {
-        if (cabezal.hayAliadoSeleccionado()) {
-            return "                  Comandante: " + (cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 5 )).truncate(2) +
+    override method text() {
+        return if (cabezal.hayAliadoSeleccionado()) {
+            "                  Comandante: " + (cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 5 )).truncate(2) +
                     "        Soldado: "  + (cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 4 )).truncate(2)
         } else {
-            return null
+            null
         }
     }
 
-    method textColor() {
+    override method textColor() {
       return paleta.blanco()
     }
 }
 
-object probabilidadesArqMag {
+object probabilidadesArqMag inherits TextoHUD {
 
-    method position() {
+    override method position() {
         return game.at(18, 1)
     }
 
-    method text() {
-        if (cabezal.hayAliadoSeleccionado()) {
-            return "              Mago: " + (cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 2 )).truncate(2) +
+    override method text() {
+        return if (cabezal.hayAliadoSeleccionado()) {
+            "              Mago: " + (cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 2 )).truncate(2) +
                     "               Arquero: "  + (cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 2 )).truncate(2)
         } else {
-            return null
+            null
         }
     }
 
-    method textColor() {
+    override method textColor() {
       return paleta.blanco()
     }
 }
