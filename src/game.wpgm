@@ -7,6 +7,7 @@ import direcciones.*
 import edificios.*
 import objetos.*
 import textos.*
+import animaciones.*
 
 
 program EigOfEmpaiers {
@@ -23,7 +24,8 @@ program EigOfEmpaiers {
 	music.volume(0.04)
 	game.schedule(500, { music.play()} )
 	
-    
+    //animaciones
+	game.onTick(200, "animacion", {animacion.sumarFrame()})
 
  	//  COMIENZA
 	game.start()

@@ -3,6 +3,7 @@ import direcciones.*
 import map.*
 import characters.*
 import edificios.*
+import animaciones.*
 
 class Objeto {
     const property position
@@ -107,17 +108,6 @@ class Muro {
 
 }
 
-class CasaMedieval {
-    const property position
-
-    method image() {
-        return "casam.png"
-    }
-
-    method solido() {
-		return true
-	}
-}
 
 object castilloEnemigo {
     var property position = game.center()
@@ -129,5 +119,53 @@ object castilloEnemigo {
     method solido() {
         return false
     }
+}
+
+
+class CasaMedieval {
+    const property position
+    var property frame = 1
+
+    method image() {
+       return animacion.frame().toString() + "casa.png"
+    }
+
+    method solido() {
+		return true
+	}
+
+    method siguienteFrame() {
+        self.volverAlInicio()
+        frame += 1
+    }
+
+    method volverAlInicio() {
+      if (frame > 3) frame = 1
+    }
+}
+
+
+class Pastito {
+    
+    const property position
+    var property frame = 1
+  
+    method image() {
+      return animacion.frame().toString() + "pastitouo.png"
+    }
+
+    method solido() {
+        return false
+    }
+
+    method siguienteFrame() {
+        self.volverAlInicio()
+        frame += 1
+    }
+
+    method volverAlInicio() {
+      if (frame > 3) frame = 1
+    }
+
 }
 
