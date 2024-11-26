@@ -115,19 +115,6 @@ class Muro inherits Objeto {
 }
 
 
-object castilloEnemigo {
-
-    var property position = game.center()
-
-    method image() {
-        return "castilloenem.png"
-    }
-
-    method solido() {
-        return false
-    }
-}
-
 class Animado inherits Objeto {
 
     override method image() {

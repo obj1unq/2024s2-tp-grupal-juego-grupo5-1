@@ -69,3 +69,19 @@ object castillo {
 
 }
 
+
+object castilloEnemigo {
+
+    var property position = game.center()
+    
+
+    method image() {
+        return "castilloenem.png"
+    }
+
+    method inicializar() {
+        position = game.at(14, 12)
+        game.addVisual(self)
+    }
+
+}
