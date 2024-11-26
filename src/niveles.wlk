@@ -18,9 +18,10 @@ class Nivel {
 
     method inicializar() {
         self.dibujar()
-        constructorOros.instanciarOros(2)
-	    constructorPiedras.instanciarPiedra(1)
+        constructorOros.instanciar(2)
+	    constructorPiedras.instanciar(1)
         castillo.inicializar()
+        castilloEnemigo.inicializar()
         cabezal.inicializar()
         mapa.inicializarAliadosVivos()
         hud.inicializar()
@@ -107,7 +108,7 @@ object pantallaInicio inherits Nivel(turnosDelNivel = 1) {
 }
 object nivel1 inherits Nivel(turnosDelNivel = 15) {
     const property tablero = 
-    [[_,pa,c,pa,_,_,_,_,_,_,_,_,_,pa,ce,_,_,_,_,_,_,_,_],
+    [[_,pa,c,pa,_,_,_,_,_,_,_,_,_,pa,_,_,_,_,_,_,_,_,_],
      [_,_,_,_,_,_,_,_,_,_,_,_,ae,_,coe,_,_,_,_,_,_,_,_],    
      [_,_,_,c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],    
      [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],   
@@ -131,7 +132,7 @@ object nivel1 inherits Nivel(turnosDelNivel = 15) {
 object nivel2 inherits Nivel(turnosDelNivel = 25) {
 
     const property tablero = 
-    [[_,_,_,m,_,_,_,_,_,_,_,_,_,me,ce,_,_,_,_,_,_,_,_],
+    [[_,_,_,m,_,_,_,_,_,_,_,_,_,me,_,_,_,_,_,_,_,_,_],
      [_,o,_,m,_,_,_,c,pa,pa,_,_,_,coe,_,_,_,_,_,_,_,_,_],    
      [_,p,_,se,_,_,_,_,c,pa,_,_,_,_,_,_,_,_,_,_,_,_,_],    
      [_,p,_,ae,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],   
@@ -155,7 +156,7 @@ object nivel2 inherits Nivel(turnosDelNivel = 25) {
 object nivel3 inherits Nivel(turnosDelNivel = 32) {
 
     const property tablero = 
-    [[_,_,p,_,m,_,_,_,_,_,_,_,_,ge,ce,_,_,_,_,_,_,_,_],
+    [[_,_,p,_,m,_,_,_,_,_,_,_,_,ge,_,_,_,_,_,_,_,_,_],
      [_,o,se,_,se,_,_,_,o,_,_,_,_,de,ae,_,_,_,_,_,_,_,_],    
      [_,_,p,_,m,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],    
      [m,m,m,m,m,_,_,_,_,pa,_,_,_,_,_,_,_,_,_,_,_,_,_],   
@@ -226,13 +227,6 @@ object c {
     }
 }
 
-object ce {
-    method dibujarEn(position) {
-        castilloEnemigo.position(position)
-        game.addVisual(castilloEnemigo)
-        
-    }
-}
 
 object h {
     method dibujarEn(position) {

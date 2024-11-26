@@ -36,23 +36,52 @@ object castillo {
         unidad.position(self.position())
         game.addVisual(unidad)
         mapa.agregarAliado(unidad)
-        unidad.efectosEnRecursosSpawn()
+        self.efectosEnRecursosSpawn(unidad)
         unidad.playSpawn()
+    }
+
+    method efectosEnRecursosSpawn(unidad) {
+        oroEnReserva -= unidad.valor()
+        unidad.efectoEnRecursosPorCondicion()
     }
 
 
     method checkSpawn(unidad){
         if (mapa.hayUnidadAca(self.position())){
             self.error("El castillo esta ocupado!")
-        } else if (not (oroEnReserva >= unidad.valor()) || not unidad.condicionParaSpawn()) {  // Con que no cumpla una condicion ya entra al error
+        } else if (not self.hayOroSuficienteParaSpawnear(unidad) || not unidad.condicionParaSpawn()) {  
             self.error ("No dispones de los recursos suficientes para spawnear la unidad!")
         }
     }
 
+    method hayOroSuficienteParaSpawnear(unidad) {
+        return oroEnReserva >= unidad.valor()
+    }
+
     method oroEnReservaNoEsSuficiente() {
-        return oroEnReserva < 11 // Es menor al valor de la unidad mas barata para spawnear.
+        return oroEnReserva < self.valorUnidadMenosCostosa()
+    }
+
+    method valorUnidadMenosCostosa() {
+        return 11
     }
 
 
 }
 
+
+object castilloEnemigo {
+
+    var property position = game.center()
+    
+
+    method image() {
+        return "castilloenem.png"
+    }
+
+    method inicializar() {
+        position = game.at(14, 12)
+        game.addVisual(self)
+    }
+
+}

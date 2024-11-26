@@ -17,16 +17,6 @@ program EigOfEmpaiers {
 	game.ground("pasto.png")
 	mapa.nivelActual().inicializar()
 
-
-	//SONIDO
-	const music = game.sound("background3.mp3")
- 	music.shouldLoop(true)
-	music.volume(0.04)
-	game.schedule(500, { music.play()} )
-	
-    //animaciones
-	game.onTick(500, "animacion", {animacion.sumarFrame()})
-
  	//  COMIENZA
 	game.start()
 }
