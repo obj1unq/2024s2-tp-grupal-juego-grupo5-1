@@ -25,7 +25,7 @@ program EigOfEmpaiers {
 	game.schedule(500, { music.play()} )
 	
     //animaciones
-	game.onTick(200, "animacion", {animacion.sumarFrame()})
+	game.onTick(500, "animacion", {animacion.sumarFrame()})
 
  	//  COMIENZA
 	game.start()

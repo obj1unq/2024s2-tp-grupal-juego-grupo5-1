@@ -105,8 +105,8 @@ object probabilidadesDragonGolem inherits TextoHUD {
 
     override method text() {
         return if (cabezal.hayAliadoSeleccionado()) {
-            "              Dragon: " + (cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 4 )).truncate(2) +
-                    "               Golem: "  + (cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 10 )).truncate(2)
+            "              Dragon: " + ((cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 4 )).truncate(2)) * 100 + "%" +
+                    "               Golem: "  + ((cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 10 )).truncate(2))* 100 + "%"
         } else {
             null
         }
@@ -125,8 +125,8 @@ object probabilidadesComandSol inherits TextoHUD{
 
     override method text() {
         return if (cabezal.hayAliadoSeleccionado()) {
-            "                  Comandante: " + (cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 5 )).truncate(2) +
-                    "        Soldado: "  + (cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 4 )).truncate(2)
+            "                  Comandante: " + ((cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 5 )).truncate(2))* 100 + "%" +
+                    "        Soldado: "  + ((cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 4 )).truncate(2))* 100 + "%"
         } else {
             null
         }
@@ -145,8 +145,8 @@ object probabilidadesArqMag inherits TextoHUD {
 
     override method text() {
         return if (cabezal.hayAliadoSeleccionado()) {
-            "              Mago: " + (cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 2 )).truncate(2) +
-                    "               Arquero: "  + (cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 2 )).truncate(2)
+            "              Mago: " + ((cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 2 )).truncate(2))* 100 + "%" +
+                    "               Arquero: "  + ((cabezal.seleccionActualAliada().ataqueBase() / (cabezal.seleccionActualAliada().ataqueBase() + 2 )).truncate(2))* 100 + "%"
         } else {
             null
         }
