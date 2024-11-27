@@ -11,6 +11,8 @@
 
 ![Inicio](assets/pantallaInicioNew.png)
 ![Nivel 1](assets/nivel1.png)
+![Nivel 2](assets/nivel2.png)
+![Nivel 3](assets/nivel3.png)
 
 ## Reglas de Juego / Instrucciones
 
