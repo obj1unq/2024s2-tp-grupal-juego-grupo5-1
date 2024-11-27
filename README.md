@@ -9,7 +9,7 @@
 
 ## Capturas
 
-(agregar)
+![Nivel 1](assets/nivel1.png)
 
 ## Reglas de Juego / Instrucciones
 
