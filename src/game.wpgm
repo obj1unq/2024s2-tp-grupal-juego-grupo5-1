@@ -1,0 +1,22 @@
+import turno.*
+import wollok.game.*
+import map.*
+import characters.*
+import cabezal.*
+import direcciones.*
+import edificios.*
+import objetos.*
+import textos.*
+import animaciones.*
+
+
+program EigOfEmpaiers {
+	//  CONFIG	
+	game.title("Eig Of Empaiers")
+    game.cellSize(50)
+	game.ground("pasto.png")
+	mapa.nivelActual().inicializar()
+
+ 	//  COMIENZA
+	game.start()
+}
