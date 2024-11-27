@@ -1,70 +1,166 @@
+import objetos.*
 import wollok.game.*
 import map.*
 import characters.*
 import cabezal.*
 import direcciones.*
 import turno.*
+import edificios.*
 
+describe "Tests de cabezal" {
 
-describe "testear set de enemigos contiguos"{
+  var comandanteAliado
+  var comandanteEnemigo
 
-    test "comandante enemigo hacia arriba"{
-        const comandante = new Comandante(team=aliado, inventario = #{}, position = game.at(3,3))
-	    mapa.agregarAliado(comandante)
-	    const comandante2 = new Comandante (team=enemigo, inventario =#{}, position = game.at(3,4))
-	    mapa.agregarEnemigo(comandante2)
-         const comandante3 = new Comandante (team=enemigo, inventario =#{}, position = game.at(3,2))
-	    mapa.agregarEnemigo(comandante3)
-         const comandante4 = new Comandante (team=enemigo, inventario =#{}, position = game.at(4,3))
-	    mapa.agregarEnemigo(comandante4)
-         const comandante5 = new Comandante (team=enemigo, inventario =#{}, position = game.at(3,2))
-	    mapa.agregarEnemigo(comandante5)
+  method initialize(){
+    game.width(23)
+    game.height(13)
+    game.cellSize(50)
+    comandanteAliado = new Comandante (team = aliado, position = game.at(5,5))
+    mapa.agregarAliado(comandanteAliado)
+    comandanteEnemigo = new Comandante (team = enemigo, position = game.at(6,6))
+    mapa.agregarEnemigo(comandanteEnemigo)
+  }
 
-        comandante.definirEnemigosAlAlcance(game.at(3,3))
-        
-        assert.equals(#{comandante2, comandante3, comandante4, comandante5}, comandante.enemigosAlAlcance())
-    }
+  test "mover cabezal"{
+    cabezal.position(game.origin())
+    cabezal.mover(derecha) // se puede mover
 
-    test "seleccion actual aliada" {
-      const comandante = new Comandante(team=aliado, inventario = #{}, position = game.at(3,3))
-	    mapa.agregarAliado(comandante)
+    assert.throwsExceptionWithMessage("No me puedo mover a esa posición ya que esta fuera de los limites!", {cabezal.mover(abajo)})
+  }
+  test "seleccion actual aliada" {
 
-      cabezal.position(game.at(3,3))
+      cabezal.position(game.at(5,5))
       cabezal.accionar()
 
-      assert.equals(cabezal.seleccionActualAliada(), comandante)
+      assert.equals(cabezal.seleccionActualAliada(), comandanteAliado)
         
-      cabezal.seleccionActualAliada().mover(game.at(3,4))
-        
-      cabezal.setAliado(null)
-      cabezal.position(game.at(3,4))
-      cabezal.setModo(cabezalNormal)
-      cabezal.accionar()
-        
-      assert.equals(cabezal.seleccionActualAliada(), comandante)
     }
-}
-
-describe "recargar movimientos" {
-
-    
-  test "description" {
-    
-    const comandante = new Comandante(team=aliado, inventario = #{}, position = game.at(3,3))
-	mapa.agregarAliado(comandante)
-
-    cabezal.position(game.at(3,3))
+  
+  test "mover aliado"{
+    cabezal.position(game.at(5,5))
+    cabezal.accionar()
+    cabezal.mover(arriba)
     cabezal.accionar()
 
-    assert.equals(cabezal.seleccionActualAliada(), comandante)
-    
-    cabezal.position(game.at(3,4))
-    cabezal.accionar()
+    assert.equals(game.at(5,6), comandanteAliado.position())
+  }
+  
+  test "seleccion actual enemiga"{
 
-    assert.equals(mapa.aliadosEn(cabezal.position()).fueMovido(), true)
-    assert.equals(#{comandante}, mapa.aliados())
-    turno.terminarTurno()
-    assert.equals(mapa.aliadosEn(cabezal.position()).fueMovido(), false)
+    cabezal.position(game.at(6,6))
+    cabezal.setEnemigo(cabezal.obtenerPjEnemigo())
+
+    assert.equals(comandanteEnemigo, cabezal.seleccionActualEnemiga())
 
   }
+
+  test "pasar al modo correspondiente despues de cada accion"{
+    cabezal.position(game.at(5,5))
+    cabezal.accionar()
+
+    assert.equals(cabezalSeleccion, cabezal.modoCabezal())
+
+    cabezal.mover(arriba)
+    cabezal.accionar()
+    assert.equals(cabezalBatalla, cabezal.modoCabezal())
+  }
+
+}
+
+describe "tests de recursos"{
+
+  var recolector
+  var oro
+  var piedra
+  var huevo
+
+  method initialize(){
+    game.width(23)
+    game.height(13)
+    game.cellSize(50)
+    oro = new Oro (position = game.origin())
+    mapa.agregarObjeto(oro)
+    piedra = new Piedra(position = game.at(1,0))
+    mapa.agregarObjeto(piedra)
+    huevo = new Huevo (position = game.at(2,0))
+    mapa.agregarObjeto(huevo)
+    recolector = new Comandante (team = aliado, position = game.at(0,1))
+    mapa.agregarAliado(recolector)
+    cabezal.position(game.at(0,1))
+  }
+
+  test "recoger oro"{
+    assert.equals(40, castillo.oroEnReserva())
+    cabezal.accionar()
+    cabezal.mover(abajo)
+    cabezal.accionar()
+
+    assert.equals(60, castillo.oroEnReserva())
+
+  }
+
+  test "recoger piedra"{
+    assert.equals(2, castillo.piedrasEnReserva())
+    cabezal.accionar()
+    cabezal.mover(abajo)
+    cabezal.mover(derecha)
+    cabezal.accionar()
+
+    assert.equals(3, castillo.piedrasEnReserva())
+  }
+
+  test "recoger huevo"{
+    assert.equals(0, castillo.huevosEnReserva())
+    cabezal.accionar()
+    cabezal.mover(abajo)
+    cabezal.mover(derecha)
+    cabezal.mover(derecha)
+    cabezal.accionar()
+
+    assert.equals(1, castillo.huevosEnReserva())
+  }
+
+  test "recoger recurso con enemigo contiguo"{
+    const comandanteEnemigo = new Comandante (team = enemigo, position = game.at(1,1))
+    mapa.agregarEnemigo(comandanteEnemigo)
+
+    assert.equals(2, castillo.piedrasEnReserva())
+    cabezal.accionar()
+    cabezal.mover(abajo)
+    cabezal.mover(derecha)
+    cabezal.accionar()
+
+    assert.equals(2, castillo.piedrasEnReserva())
+  }
+}
+
+
+
+describe "Tests de personajes"{
+
+      var comandanteAliado
+      var arqueroAliado
+
+      method initialize(){
+        comandanteAliado = new Comandante (team = aliado, position = game.at(5,5))
+        arqueroAliado = new Arquero (team=aliado, position = game.at(4,3))
+      }
+    
+    test "Testear enemigos al alcance"{
+
+	    const enemigoAlNorte = new Comandante (team=enemigo, position = game.at(5,6))
+	    mapa.agregarEnemigo(enemigoAlNorte)
+      const enemigoAlSur = new Comandante (team=enemigo, position = game.at(5,4))
+	    mapa.agregarEnemigo(enemigoAlSur)
+      const enemigoAlEste = new Comandante (team=enemigo, position = game.at(6,5))
+	    mapa.agregarEnemigo(enemigoAlEste)
+      const enemigoAlOeste = new Comandante (team=enemigo, position = game.at(4,5))
+	    mapa.agregarEnemigo(enemigoAlOeste)
+
+        
+      assert.equals(#{enemigoAlNorte, enemigoAlSur, enemigoAlEste, enemigoAlOeste}, comandanteAliado.enemigosAlAlcance())
+      assert.equals(#{enemigoAlOeste, enemigoAlSur}, arqueroAliado.enemigosAlAlcance()) 
+    }
+   
 }
