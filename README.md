@@ -9,6 +9,7 @@
 
 ## Capturas
 
+![Inicio](assets/pantallaInicioNew.png)
 ![Nivel 1](assets/nivel1.png)
 
 ## Reglas de Juego / Instrucciones
