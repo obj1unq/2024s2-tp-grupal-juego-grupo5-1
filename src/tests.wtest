@@ -164,3 +164,51 @@ describe "Tests de personajes"{
     }
    
 }
+
+describe "castillo" {
+
+
+    const comandante = new Comandante(team = aliado)
+    const golem = new Golem(team = aliado)
+
+
+    test "spawnear aliados" {
+        assert.that(mapa.aliados().isEmpty())
+
+
+        castillo.spawn(comandante)
+
+
+        assert.equals(#{comandante}, mapa.aliados())
+    }
+
+
+    test "No se puede spawnear cuando ya hay una tropa sobre el castillo" {
+        assert.that(mapa.aliados().isEmpty())
+        castillo.spawn(comandante)
+       
+        assert.throwsException({ castillo.spawn(golem) })
+    }
+
+
+    test "No se puede spawnear cuando no se cuenta con los resursos suficientes" {
+        assert.throwsException({ castillo.spawn(golem) })
+        assert.that(mapa.aliados().isEmpty())
+        
+    }
+
+
+    test "gastar oro" {
+        assert.equals(40, castillo.oroEnReserva())
+        castillo.spawn(comandante)
+
+
+        assert.equals(20, castillo.oroEnReserva())
+    }
+
+
+
+
+
+
+}
