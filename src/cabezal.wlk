@@ -156,7 +156,7 @@ object cabezalNormal inherits ModoCabezal {
 object cabezalSeleccion inherits ModoCabezal {
   
   override method image() {
-    return "cabezal_seleccion.png"
+    return "cabezal_seleccion2.png"
   }
 
   //MOVER
@@ -173,7 +173,7 @@ object cabezalSeleccion inherits ModoCabezal {
 object cabezalBatalla inherits ModoCabezal {
 
   override method image() {
-      return "cabezal_batalla.png"
+      return "cabezal_batalla2.png"
   }
 
   //SELECCIONAR ENEMIGO
@@ -189,7 +189,7 @@ object cabezalBatalla inherits ModoCabezal {
 object cabezalAtaque inherits ModoCabezal {
   
   override method image() {
-    return "cabezal_ataque.png"
+    return "cabezal_ataque2.png"
   }
 
   override method accionar() {
